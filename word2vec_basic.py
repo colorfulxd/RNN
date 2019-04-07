@@ -69,7 +69,7 @@ def word2vec_basic(log_dir):
   def read_data(filename):
     """Extract the first file enclosed in a zip file as a list of words."""
     with open(filename) as f:
-	  data = f.read()
+      data = f.read()
       data = [word for word in data]
     return data
 

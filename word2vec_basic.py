@@ -47,7 +47,7 @@ def word2vec_basic(log_dir):
   url = 'http://mattmahoney.net/dc/'
 
   # pylint: disable=redefined-outer-name
-'''
+  '''
   def maybe_download(filename, expected_bytes):
     """Download a file if not present, and make sure it's the right size."""
     local_filename = os.path.join(gettempdir(), filename)
@@ -62,8 +62,7 @@ def word2vec_basic(log_dir):
       raise Exception('Failed to verify ' + local_filename +
                       '. Can you get to it with a browser?')
     return local_filename
-'''
-
+  '''
   filename = 'QuanSongCi.txt'
 
   # Read the data into a list of strings.

@@ -64,7 +64,8 @@ def word2vec_basic(log_dir):
     return local_filename
   '''
   filename = 'QuanSongCi.txt'
-
+  filename = os.path.join(gettempdir(), filename)
+  print(filename)
   # Read the data into a list of strings.
   def read_data(filename):
     """Extract the first file enclosed in a zip file as a list of words."""

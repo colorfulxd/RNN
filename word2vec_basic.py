@@ -109,7 +109,7 @@ def word2vec_basic(log_dir):
   data, count, unused_dictionary, reverse_dictionary = build_dataset(
       vocabulary, vocabulary_size)
   del vocabulary  # Hint to reduce memory.
-  print('Most common words (+UNK)', count[:5])
+  #print('Most common words (+UNK)',count[:5])
   print('Sample data', data[:10], [reverse_dictionary[i] for i in data[:10]])
 
   # Step 3: Function to generate a training batch for the skip-gram model.

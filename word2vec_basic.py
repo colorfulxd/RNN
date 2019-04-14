@@ -63,12 +63,14 @@ def word2vec_basic(log_dir):
                       '. Can you get to it with a browser?')
     return local_filename
   '''
-  filename = 'QuanSongCi.txt'
+  filename = os.path.join(log_dir, 'QuanSongCi.txt')
+  print('filename is %s' %(filename))
 
   # Read the data into a list of strings.
   def read_data(filename):
     """Extract the first file enclosed in a zip file as a list of words."""
     with open(filename,'r',encoding ='utf-8') as f :
+      print('filename2 is %s' %(filename))
       data = f.read()
       data = [word for word in data]
     return data
@@ -357,6 +359,7 @@ def main(unused_argv):
       default=os.path.join(current_path, 'log'),
       help='The log directory for TensorBoard summaries.')
   flags, unused_flags = parser.parse_known_args()
+  print("flags.logdir",flags.log_dir)
   word2vec_basic(flags.log_dir)
 
 if __name__ == '__main__':

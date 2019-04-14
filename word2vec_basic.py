@@ -64,12 +64,11 @@ def word2vec_basic(log_dir):
     return local_filename
   '''
   filename = 'QuanSongCi.txt'
-  filename = os.path.join(gettempdir(), filename)
-  print(filename)
+
   # Read the data into a list of strings.
   def read_data(filename):
     """Extract the first file enclosed in a zip file as a list of words."""
-    with open(filename) as f:
+    with open(filename,'r',encoding ='utf-8') as f :
       data = f.read()
       data = [word for word in data]
     return data
@@ -79,7 +78,7 @@ def word2vec_basic(log_dir):
   print('Data size', len(vocabulary))
 
   # Step 2: Build the dictionary and replace rare words with UNK token.
-  vocabulary_size = 50000
+  vocabulary_size = 5000
 
   def build_dataset(words, n_words):
     """Process raw inputs into a dataset."""
@@ -112,6 +111,8 @@ def word2vec_basic(log_dir):
   print('Sample data', data[:10], [reverse_dictionary[i] for i in data[:10]])
 
   # Step 3: Function to generate a training batch for the skip-gram model.
+  #data[1503,1828,2,2,40,613 47] is ord in the rank
+  # batch [1828 1828 2 2 2 2 40 40 ]--> label[1503 2, 1828 2 2 40 613 2]
   def generate_batch(batch_size, num_skips, skip_window):
     global data_index
     assert batch_size % num_skips == 0
@@ -130,6 +131,7 @@ def word2vec_basic(log_dir):
       for j, context_word in enumerate(words_to_use):
         batch[i * num_skips + j] = buffer[skip_window]
         labels[i * num_skips + j, 0] = buffer[context_word]
+
       if data_index == len(data):
         buffer.extend(data[0:span])
         data_index = span
@@ -284,7 +286,7 @@ def word2vec_basic(log_dir):
             log_str = '%s %s,' % (log_str, close_word)
           print(log_str)
     final_embeddings = normalized_embeddings.eval()
-
+    np.save('embedding.npy', final_embeddings)
     # Write corresponding labels for the embeddings.
     with open(log_dir + '/metadata.tsv', 'w') as f:
       for i in xrange(vocabulary_size):
@@ -300,9 +302,9 @@ def word2vec_basic(log_dir):
     embedding_conf.tensor_name = embeddings.name
     embedding_conf.metadata_path = os.path.join(log_dir, 'metadata.tsv')
     projector.visualize_embeddings(writer, config)
-
+    
   writer.close()
-
+  
   # Step 6: Visualize the embeddings.
 
   # pylint: disable=missing-docstring
